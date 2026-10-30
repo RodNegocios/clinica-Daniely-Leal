@@ -29,6 +29,7 @@ for (const file of ['styles.css', 'smile-scene.css', 'care-showcase.css', 'asset
  const text = (await fs.readFile(file, 'utf8')).replace(/url\((["'])data:[\s\S]*?\1\)/g, '');
  for (const [, resource] of text.matchAll(/url\(['\"]?([^'\")]+)['\"]?\)/g)) {
   if (resource.startsWith('data:') || /^https?:/.test(resource)) continue;
+  if (resource.startsWith('#')) { assert(ids.includes(resource.slice(1)), 'Inline SVG filter '+resource); continue; }
   const target = resource.startsWith('/') ? '.' + decodeURI(resource) : path.join(path.dirname(file), decodeURI(resource));
   await fs.access(target);
  }

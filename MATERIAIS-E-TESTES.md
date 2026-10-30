@@ -17,3 +17,7 @@ Vídeo: transcodificado a partir do original, sem áudio, H.264 all-intra, fasts
 - Servidor de desenvolvimento: bloqueio HTTP 403 para originais, metadados Git e scripts internos validado.
 
 Limites: testes em Chromium com dimensões mobile, sem aparelho físico/iOS. A publicação, regras .htaccess, cache e entrega do MP4 na Hostinger precisam ser conferidos no domínio real após implantação; não foi fornecido acesso da hospedagem nem domínio para esse teste.
+
+## Paleta rosa antigo
+
+A referência de marca enviada posteriormente orientou os detalhes em rosa antigo (#b98fa3), realces claros (#e6cbd7), fundos quase brancos (#fcf8fa) e textos em grafite com leve fundo ameixa (#38313b). Títulos de destaque usam rosa mais escuro (#8b536e) para manter a leitura. A logo e o favicon recebem o mesmo tom, preservando o desenho e a transparência do símbolo. Layout e animações permanecem inalterados.
