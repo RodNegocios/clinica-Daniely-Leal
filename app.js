@@ -24,12 +24,7 @@
   window.matchMedia('(min-width: 701px)').addEventListener('change', e => { if(e.matches) closeMenu(); });
 
   // Service accordion: one panel at a time, with a photograph from the supplied set.
-  const serviceImages = [
-    { src: 'digitalx-capa', label: 'Um olhar além do sorriso', alt: 'Pessoa posicionada no equipamento de radiologia odontológica' },
-    { src: 'consultorio-vertical', label: 'Seu cuidado começa aqui.', alt: 'Consultório odontológico da Clínica Jönk' },
-    { src: 'doutora', label: 'Um olhar para o seu sorriso.', alt: 'Dra. Daniele Jönk, responsável pela clínica' },
-    { src: 'consultorio', label: 'Cuidado e planejamento.', alt: 'Visão ampla do consultório da Clínica Jönk' }
-  ];
+  const serviceImages = [{"src": "daniely", "label": "Dra. Daniely Leal", "alt": "Retrato da Dra. Daniely Leal"}, {"src": "consultorio-leal", "label": "Cuidado individualizado", "alt": "Dra. Daniely no consultório odontológico"}, {"src": "cuidado-infantil", "label": "Cuidado desde a infância", "alt": "Dra. Daniely em atendimento odontológico infantil"}, {"src": "daniely-facial", "label": "Atenção aos detalhes", "alt": "Dra. Daniely com seringa em retrato profissional"}];
   const serviceButtons = $$('[data-service]');
   let selectedService = 0;
   serviceButtons.forEach((button, index) => {
@@ -50,11 +45,11 @@
       $('#cuidados').dataset.activeService = String(index);
       $('.care-image-stack').classList.toggle('radio-cover', index === 0);
       $('.care-image-stack').classList.remove('radio-exam');
-      $('.image-kicker').textContent = index === 0 ? 'DIAGNÓSTICO POR IMAGEM' : 'CUIDADO EM CADA DETALHE';
+      $('.image-kicker').textContent = index === 0 ? 'CUIDADO INDIVIDUALIZADO' : 'CUIDADO EM CADA DETALHE';
       image.alt = data.alt;
       $('#care-image-label').textContent = data.label;
       $('#care-image-index').textContent = '0' + (index + 1) + ' / 04';
-      document.dispatchEvent(new CustomEvent('jonk:service-change', {detail:{index}}));
+      document.dispatchEvent(new CustomEvent('leal:service-change', {detail:{index}}));
       if(gs && !reduced()) {
         gs.fromTo(image, { scale: 1.08, clipPath: 'inset(0 0 100% 0)' }, { scale: 1, clipPath: 'inset(0 0 0% 0)', duration: .85, ease: 'power3.out', overwrite: true });
         gs.fromTo($('#service-panel-' + index), { height: 0, overflow: 'hidden' }, { height: 'auto', duration: .45, ease: 'power2.out', clearProps: 'height,overflow', onComplete: () => window.ScrollTrigger?.refresh() });
@@ -124,7 +119,7 @@
   if(!gs || !window.ScrollTrigger) return;
   gs.registerPlugin(window.ScrollTrigger);
   const media = gs.matchMedia();
-  gs.set('.hero-arch > img', { xPercent: -37, yPercent: -50, x: 0, y: 0 });
+  gs.set('.hero-arch > img', { xPercent: 0, yPercent: 0, x: 0, y: 0 });
   media.add('(prefers-reduced-motion: no-preference)', () => {
     const intro = gs.timeline({ defaults: { ease: 'power3.out' } });
     intro.from('.hero .line > *', { yPercent: 115, rotate: 2, duration: 1.15, stagger: .13 }, .1)
@@ -133,7 +128,7 @@
       .from('.hero-arch > img', { scale: 1.18, duration: 1.65 }, .05)
       .from('.smile-orbit', { scale: .6, rotation: -50, duration: 1.2, ease: 'back.out(1.3)' }, .5);
     gs.to('.scroll-progress', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.documentElement, start: 'top top', end: 'bottom bottom', scrub: .2 } });
-    gs.to('.hero-arch > img', { yPercent: -47, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+    gs.to('.hero-arch > img', { yPercent: 3, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
     gs.to('.hero-line', { xPercent: -13, y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 } });
     gs.to('.smile-orbit', { y: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5 } });
 

@@ -1,0 +1,14 @@
+# Static production on Hostinger/Apache. Keep repository source material private.
+Options -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule "^(?:Conteúdo Novo|\.git|\.github)(?:/|$)" - [F,L,NC]
+</IfModule>
+<FilesMatch "(^\.|\.(?:md|mjs|json|ya?ml)$)">
+    Require all denied
+</FilesMatch>
+<IfModule mod_mime.c>
+    AddType video/mp4 .mp4
+    AddType image/webp .webp
+    AddType font/woff2 .woff2
+</IfModule>

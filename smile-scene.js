@@ -23,10 +23,10 @@
       targetTime = Math.min(video.duration - .08, Math.max(0, playhead.progress * (video.duration - .08)));
       requestSeek();
     }
-    function loadVideo() { if (!video.getAttribute('src')) { video.src = video.dataset.src; video.load(); } }
+    function loadVideo() { if (!video.getAttribute('src')) { video.src = window.matchMedia('(max-width: 700px)').matches ? video.dataset.mobileSrc : video.dataset.src; video.load(); } }
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) { loadVideo(); observer.disconnect(); }
-    }, { rootMargin: '800px 0px' });
+    }, { rootMargin: '1400px 0px' });
     observer.observe(section);
     video.addEventListener('loadedmetadata', updateVideo);
     video.addEventListener('loadeddata', requestSeek);

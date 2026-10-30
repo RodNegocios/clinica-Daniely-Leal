@@ -10,7 +10,7 @@ if (!address) {
     throw new Error('SITE_URL must be an HTTP(S) website address without credentials.');
   }
   const origin = url.origin;
-  const image = `${origin}/assets/fachada.webp`;
+  const image = `${origin}/assets/fachada-leal.webp`;
   const page = new URL('./index.html', import.meta.url);
   let html = await fs.readFile(page, 'utf8');
   html = html.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${origin}/$2`);

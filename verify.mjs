@@ -11,19 +11,19 @@ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'Unique HTML IDs');
 for(const [,id] of html.matchAll(/href="#([^"]+)"/g)) assert(ids.includes(id),'Internal anchor '+id);
 for(const [,asset] of html.matchAll(/(?:src|href)="(\/(?!\/)[^"]+)"/g)) await fs.access('.'+decodeURI(asset));
-for(const [,url] of html.matchAll(/href="(https:\/\/wa.me\/[^\"]+)"/g)) assert(url.startsWith('https://wa.me/5565999753639'),'Confirmed WhatsApp number');
-for(const name of ['doutora','consultorio','acolhimento','consultorio-vertical','radiologia','recepcao','fachada']) {
+for(const [,url] of html.matchAll(/href="(https:\/\/wa.me\/[^\"]+)"/g)) assert(/^https:\/\/wa.me\/(5567991059720|5567999697772)(?:\?|$)/.test(url),'Briefing WhatsApp numbers');
+for(const name of ['daniely-capa','daniely','daniely-facial','consultorio-leal','recepcao-leal','fachada-leal']) {
  assert(html.includes(name+'.webp')||js.includes(name),'Photograph included: '+name);
  await fs.access('assets/'+name+'.webp');
 }
 assert(css.includes('prefers-reduced-motion:reduce'));
 assert(js.includes('prefers-reduced-motion: no-preference'));
 assert.equal((html.match(/<h1\b/g)||[]).length,1);
-assert(html.includes('CRO-MT 3152'));
+assert(html.includes('CRO 3078/MS'));
 const manifest=JSON.parse(await fs.readFile('vercel.json','utf8'));
 assert.equal(manifest.outputDirectory,'.');
 assert.equal(manifest.framework,null);
-console.log('PASS: anchors, unique IDs, local assets, all seven photographs, WhatsApp, metadata and motion fallback.');
+console.log('PASS: anchors, unique IDs, local assets, practice photographs, WhatsApp, metadata and motion fallback.');
 
 for (const file of ['styles.css', 'smile-scene.css', 'care-showcase.css', 'assets/fonts.css']) {
  const text = (await fs.readFile(file, 'utf8')).replace(/url\((["'])data:[\s\S]*?\1\)/g, '');
@@ -33,5 +33,16 @@ for (const file of ['styles.css', 'smile-scene.css', 'care-showcase.css', 'asset
   await fs.access(target);
  }
 }
-assert(html.includes('src="/foto da clinina jok atualiza para ser aplicada.webp"'), 'Updated contact photograph');
+assert(html.includes('src="/assets/fachada-leal.webp"'), 'Practice contact photograph');
 console.log('PASS: root-only structure, CSS resources and updated contact photograph.');
+
+assert(!/jönk|jonk|comodoro|3152|digitalx|5565999753639/i.test(html+js),'No former practice identity');
+assert(html.includes('Registros autorizados'),'Authorized clinical image context');
+const data=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert.equal(data.address.addressLocality,'Inocência');
+assert.equal(data.address.addressRegion,'MS');
+assert.equal(data.telephone,'+5567991059720');
+assert(html.includes('data-src="/assets/daniely-scroll.mp4"'));
+assert.equal((html.match(/class="patient-card"/g)||[]).length,9);
+assert.equal((html.match(/data-service="/g)||[]).length,4);
+console.log('PASS: adapted identity, contacts, structured data, video and preserved galleries.');

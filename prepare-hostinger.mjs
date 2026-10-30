@@ -18,7 +18,7 @@ if (!relativeOutput.startsWith(`..${path.sep}`) && relativeOutput !== '..' && !p
 async function files(directory, prefix = '', publicOnly = true) {
   const result = [];
   for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
-    if (publicOnly && !prefix && entry.name !== 'assets' && !publicExtension.test(entry.name)) continue;
+    if (publicOnly && !prefix && entry.name !== 'assets' && entry.name !== '.htaccess' && !publicExtension.test(entry.name)) continue;
     const relative = path.posix.join(prefix, entry.name);
     if (entry.isDirectory()) result.push(...await files(path.join(directory, entry.name), relative, publicOnly));
     else if (entry.isFile()) result.push(relative);
@@ -38,8 +38,8 @@ const names = await files(source);
 assert(names.includes('index.html'), 'Root index.html is required');
 const original = await hashes(source, names);
 await fs.mkdir(output, { recursive: true });
-const destination = await fs.mkdtemp(path.join(output, 'clinica-jonk-'));
-const archive = path.join(destination, 'clinica-jonk-hostinger.zip');
+const destination = await fs.mkdtemp(path.join(output, 'daniely-leal-'));
+const archive = path.join(destination, 'daniely-leal-hostinger.zip');
 const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'clinica-hostinger-'));
 try {
   const staging = path.join(temporary, 'site');

@@ -24,6 +24,7 @@
     $('#showcase-photo').alt = item.alt;
     $('.showcase-media').classList.toggle('rotate-left', item.fit === 'rotate-left');
     $('#showcase-caption').textContent = item.title;
+    $('.clinical-notice').hidden = !item.src.includes('registro-autorizado') && !item.src.includes('cuidado-infantil');
     $('#showcase-count').textContent = `${pad(viewerIndex + 1)} / ${pad(viewerItems.length)}`;
   }
   function openViewer(items, index) {
@@ -38,7 +39,7 @@
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); moveViewer(event.key === 'ArrowLeft' ? -1 : 1); }
   });
 
-  // Radiology: deliberate navigation, thumbnails and swipe, with the supplied cover first.
+  // Practice photographs: navigation, thumbnails, swipe and full-image viewer.
   let radioIndex = 0;
   function renderRadio(index, animate = true) {
     radioIndex = wrap(index, radioItems.length);
@@ -72,7 +73,7 @@
   $('.radio-prev').addEventListener('click', () => renderRadio(radioIndex - 1));
   $('.radio-next').addEventListener('click', () => renderRadio(radioIndex + 1));
   $('.radio-expand').addEventListener('click', () => openViewer(radioItems, radioIndex));
-  document.addEventListener('jonk:service-change', event => { if (event.detail.index === 0) renderRadio(radioIndex, false); });
+  document.addEventListener('leal:service-change', event => { if (event.detail.index === 0) renderRadio(radioIndex, false); });
   let radioTouch;
   $('.care-image-stack').addEventListener('pointerdown', event => { if (event.pointerType === 'touch') radioTouch = {x:event.clientX,y:event.clientY}; });
   $('.care-image-stack').addEventListener('pointerup', event => {

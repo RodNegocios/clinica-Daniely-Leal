@@ -4,13 +4,14 @@ import { createReadStream } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.dirname(fileURLToPath(import.meta.url));
-const types = { '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.webp':'image/webp', '.jpg':'image/jpeg', '.mp4':'video/mp4', '.svg':'image/svg+xml', '.woff2':'font/woff2' };
+const types = { '.html':'text/html; charset=utf-8', '.png':'image/png', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.webp':'image/webp', '.jpg':'image/jpeg', '.mp4':'video/mp4', '.svg':'image/svg+xml', '.woff2':'font/woff2' };
 http.createServer(async(req,res) => {
   try {
     const url = new URL(req.url,'http://localhost');
     const relative = decodeURIComponent(url.pathname) === '/' ? 'index.html' : decodeURIComponent(url.pathname).replace(/^\/+/, '');
     const file = path.resolve(root,relative);
     if(!file.startsWith(root + path.sep)) { res.writeHead(403); res.end(); return; }
+    if(relative.split('/').some(part => part.startsWith('.')) || relative.startsWith('Conteúdo Novo/') || /\.(?:md|mjs|json|ya?ml)$/i.test(relative)) { res.writeHead(403); res.end('Forbidden'); return; }
     const {size}=await fs.stat(file);
     const headers={'Content-Type':types[path.extname(file)] || 'application/octet-stream','Cache-Control':'no-store','Accept-Ranges':'bytes'};
     if(req.headers.range){

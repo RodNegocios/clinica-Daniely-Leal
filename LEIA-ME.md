@@ -1,40 +1,25 @@
-# Clínica Jönk
+# Dra. Daniely Leal — site estático
 
-Site estático em HTML, CSS e JavaScript. A única fonte oficial fica na raiz do repositório. Não requer banco de dados, chaves de API ou dependências npm. Fotografias, vídeo, fontes, GSAP e ScrollTrigger são locais; os avisos de licença das bibliotecas permanecem preservados.
+A raiz é a única fonte de produção. HTML, CSS, JavaScript, GSAP e ScrollTrigger locais, sem npm, banco de dados ou build no servidor.
 
-## Arquivos do site
+## Desenvolvimento
 
-- `index.html`: textos, contatos, estrutura e ícones.
-- `styles.css`: estilos gerais e responsividade.
-- `app.js`: navegação, galeria e animações gerais.
-- `smile-scene.css` e `smile-scene.js`: cena de vídeo sincronizada com a rolagem.
-- `care-showcase.css` e `care-showcase.js`: radiologia, galeria de pacientes e ampliação.
-- `assets/`: fotografias, vídeo, fontes e bibliotecas locais.
-- `foto da clinina jok atualiza para ser aplicada.webp`: foto atualizada da seção de contato; a galeria conserva sua própria imagem.
+Node.js 24: `node verify.mjs`, depois `node serve.mjs` (porta 4173). Trabalhe na branch `main`, conforme solicitado. Não crie dist nem sincronize uma segunda pasta.
 
-## Desenvolvimento e verificação
+## Mídias e privacidade
 
-Com Node.js 24, execute na raiz:
+`Conteúdo Novo/` conserva os 16 materiais originais. As versões otimizadas usadas pelo site ficam em `assets/`. O usuário confirmou autorização documentada para as fotografias de pacientes, antes/depois e da criança. O carrossel circular contém as oito montagens completas e o registro de atendimento infantil, com identificação profissional e aviso de individualidade dos resultados. Nenhum horário, avaliação, qualificação, domínio ou promessa de resultado foi inventado.
 
-```sh
-node verify.mjs
-node serve.mjs
-```
+WhatsApp principal: (67) 99105-9720; contato adicional: (67) 99969-7772. Serviços e telefone principal confirmados pelo usuário.
 
-O servidor local usa a porta 4173. Use-o em vez de abrir o HTML por duplo clique, pois os recursos usam caminhos a partir da raiz do domínio. Encerre com Ctrl+C. Edite diretamente os arquivos da raiz em uma branch separada e execute as verificações antes de salvar. Não é necessário gerar ou sincronizar uma segunda pasta.
+## Vídeo cinematográfico
 
-## Hostinger
+MP4 real, H.264, sem áudio, yuv420p, todos os quadros-chave e faststart, com versões de 1280px para desktop e 854px para mobile, derivado do vídeo fornecido. A timeline original GSAP/ScrollTrigger controla o currentTime em ambos os sentidos. Lazy loading antecipado, seeks coalescidos e respeito à preferência de movimento reduzido. Não há sequência de imagens. O poster estático é usado para movimento reduzido e enquanto carrega.
 
-Consulte `HOSTINGER.md`. Na integração nativa GitHub → Hostinger, use a branch `main` e copie a raiz para `public_html`, onde `index.html` deve ficar diretamente. Não há build, instalação de dependências ou ZIP nesse fluxo. A ativação da conexão e da implantação automática é feita no painel da hospedagem, separadamente. O ZIP opcional pode ser gerado com `node prepare-hostinger.mjs` para outros fluxos; a geração não publica nada. Publicação e merge dependem de autorização explícita.
+## Publicação
 
-## Alternativa Vercel
+Veja HOSTINGER.md. O ZIP opcional é gerado com `node prepare-hostinger.mjs /tmp/daniely-packages`, com validação CRC e SHA-256. O script não publica. `prepare-vercel.mjs` é opcional e pode alterar index.html; não o execute para Hostinger.
 
-A configuração preservada em `vercel.json` usa framework Other, `node prepare-vercel.mjs` como comando de preparação e `.` como saída. O site já está pronto; esse comando somente adapta metadados ao endereço informado por `SITE_URL`, `VERCEL_PROJECT_PRODUCTION_URL` ou `VERCEL_URL`, nessa ordem.
+## Testes de navegador
 
-Se uma dessas variáveis estiver definida, executar o comando altera `index.html` da raiz. Não é necessário executá-lo para a Hostinger nem para visualizar localmente. Teste-o em uma cópia temporária quando estiver apenas validando ferramentas. A configuração da Vercel foi adaptada localmente; uma publicação real nessa plataforma não foi validada nesta limpeza.
-
-Configuração de domínio, DNS e publicação são etapas separadas. Nenhum script de preparação realiza login ou publicação.
-
-## Histórico e reversão
-
-`MATERIAIS-E-TESTES.md` conserva o registro histórico original. `HOSTINGER-ROOT.md` explica a migração para fonte única e a reversão pelos commits Git. Os originais continuam recuperáveis pelo histórico; não foi feita alteração de conteúdo ou aparência nos arquivos públicos.
+`node tests/browser.cjs` usa Playwright e Chromium disponíveis neste ambiente, sem dependências em produção. Inicie o servidor antes. `CHROMIUM_PATH` permite selecionar outro Chromium; `SITE_TEST_URL` seleciona o servidor de teste. Cobre 1440, 768, 390 e 320 px, vídeo nos dois sentidos e pausa, movimento reduzido, carrosséis, ampliação, serviços, menu e respostas Range. Capturas são gravadas em /tmp. Em outra máquina de testes, instale Playwright separadamente do site estático.
